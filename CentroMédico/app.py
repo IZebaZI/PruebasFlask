@@ -18,6 +18,16 @@ def home():
 def formMedicos():
     return render_template("formMedicos.html")
 
+@app.route("/lista_medicos")
+def listMedicos():
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.execute('select * from medicos')
+        listaMedicos = cursor.fetchall()
+        return render_template('listaMedicos.html', medicos = listaMedicos)
+    except Exception as e:
+        print(e)
+
 @app.route("/guardar_medicos", methods=['POST'])
 def insertMedicos():
     if request.method == 'POST':
